@@ -1,0 +1,40 @@
+
+
+.container_login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+}
+
+.container_elementos{
+    border-radius: 2px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+    padding: 75px;
+}
+
+.caixa{
+    width: 60%;
+    margin-top: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input{
+    height: 22px;
+}
+
+.btn{
+    width: 45%;
+    height: 35px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #98FB98;
+}
