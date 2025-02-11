@@ -1,0 +1,31 @@
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly; 
+    padding: 1rem 2rem;
+    /* background-color: #D3D3D3; */
+    height: 70px; 
+    position: sticky; 
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    top: 0;
+    z-index: 1000;
+    margin-bottom: 12%;
+}
+
+.button{
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    color: #007bff;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
+.button:hover{
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #2600ff;
+    transform: scale(1.1);
+}

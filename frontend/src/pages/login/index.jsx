@@ -32,7 +32,7 @@ export default function Login(){
         
 
     return(
-        <body>
+        <main>
             <div className={estilos.container_login}>
                 <div className={estilos.container_elementos}>
                     <h1>LOGIN</h1>
@@ -55,6 +55,6 @@ export default function Login(){
                     <button onClick={logar} className={estilos.btn}>ENTER</button>
                 </div>
             </div>
-        </body>
+        </main>
     )
 }

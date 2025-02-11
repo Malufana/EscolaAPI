@@ -1,0 +1,73 @@
+.footer{
+    background-color: #d3d3d3;
+    color: #333;
+    padding: 20px 40PX;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.footer_container{
+    width: 100%;
+    max-width: 900px;
+}
+
+.school-info{
+    margin-bottom: 20px;
+}
+
+.school-info h3{
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #222;
+}
+
+.school-info p{
+    font-size: 1rem;
+    margin: 5px 0;
+    color: #555;
+}
+
+.social-media{
+    margin-top: 10px;
+}
+
+.social-media h4{
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.social-icons{
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-icons a{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #fff;
+    transition: transform 0.3s, background-color 0.3s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.social-icons a:hover {
+    transform: scale(1.1);
+    background-color: #007bff;
+}
+
+.social-icons a:hover svg {
+    color: #fff;
+}
+
+.footer-bottom {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #666;
+}
