@@ -12,7 +12,7 @@
 .listaProf{
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    width: 50%;
+    width: 85%;
     text-align: center;
     padding: 20px;
     background-color: #fff;
@@ -61,7 +61,7 @@ td{
 }
 
 tr :hover{
-    background-color: #f1f1f18f;
+    background-color: #2600ff;
 }
 
 .edit, .delete {
@@ -70,20 +70,46 @@ tr :hover{
     /* transition: transform 0.2s ease-in-out; */
 }
 
-/* tr:hover {
-    background-color: #f9f9f9;
-} */
-
-/* td{
-    text-align: center;
-    font-size: medium;
-} */
-
-
 .edit{
     color: #28a745;
 }
 
 .delete{
     color: #dc3545;
+}
+
+.footer_table{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #007bff;
+    padding: 10px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 25px;
+    justify-content: space-between;
+}
+
+.btn1, .btn2{
+    background-color: #007bff;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn1:hover, .btn2:hover{
+    background-color: #2600ff;
+}
+
+.pesquisar input{
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+}
+
+.pesquisar input:focus{
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }

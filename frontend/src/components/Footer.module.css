@@ -1,51 +1,63 @@
 .footer{
-    background-color: #d3d3d3;
+    width: 100vw;
+    /* height: 100vh; */
+    background-color: #DCDCDC;
     color: #333;
-    padding: 20px 40PX;
+    /* padding: 20px 40PX; */
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .footer_container{
     width: 100%;
     max-width: 900px;
-}
-
-.school-info{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
     margin-bottom: 20px;
 }
 
-.school-info h3{
+.school_info{
+    width: 65%;
+    padding-right: 20px;
+}
+
+.school_info h3{
     font-size: 1.5rem;
     font-weight: bold;
     color: #222;
 }
 
-.school-info p{
+.school_info p{
     font-size: 1rem;
     margin: 5px 0;
     color: #555;
 }
 
-.social-media{
-    margin-top: 10px;
+.social_media{
+    width: 30%;    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
-.social-media h4{
+.social_media h4{
     font-size: 1.2rem;
     margin-bottom: 10px;
 }
 
-.social-icons{
+.social_icons{
     display: flex;
     justify-content: center;
     gap: 15px;
 }
 
-.social-icons a{
+.social_icons a{
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -57,16 +69,17 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.social-icons a:hover {
+.social_icons a:hover {
     transform: scale(1.1);
     background-color: #007bff;
 }
 
-.social-icons a:hover svg {
+.social_icons a:hover svg {
     color: #fff;
 }
 
-.footer-bottom {
+.footer_bottom {
+    text-align: center;
     margin-top: 15px;
     font-size: 0.9rem;
     color: #666;
