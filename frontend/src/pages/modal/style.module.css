@@ -1,0 +1,50 @@
+.container_modal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background: rgba(0, 0, 0, 0.3); */
+}
+
+.body_modal{
+    padding: 2px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    justify-items: center;
+    align-items: center;
+    width: 550px;
+}
+
+.close_button{
+    position: relative;
+    /* right: 25%;
+    left: 1%; */
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+
+}
+
+.close_button:hover{
+    color: red;
+}
+
+input{
+    margin: 8px 0;
+    border: 1px solid;
+    border-radius: 5px;
+    margin: 1%;
+}
+
+button[type="submit"]{
+    width: 10%;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover{
+    background: #45a049;
+}

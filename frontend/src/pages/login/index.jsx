@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import estilos from './style.module.css';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
+import { Footer } from "../../components/Footer";
 
 export default function Login(){
     const [user, setUser] = useState('')
@@ -22,8 +23,7 @@ export default function Login(){
             console.log("TOKEN LOGIN", response.data.access);
             localStorage.setItem('token', response.data.access);
             
-
-            navigate('/home');
+            navigate('/professores');
 
         } catch(error){
             console.error(error)
@@ -55,6 +55,8 @@ export default function Login(){
                     <button onClick={logar} className={estilos.btn}>ENTER</button>
                 </div>
             </div>
+            <Footer />
         </main>
+        
     )
 }

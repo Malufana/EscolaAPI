@@ -6,13 +6,13 @@ import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
 import ModalProfessores from "../modal";
 
-export default function Home(){
-    const [dados, setDados] = useState([])
-    const token = localStorage.getItem("token") || "";
+export default function Professores(){
+    const [dados, setDados] = useState([]);
+    const token = localStorage.getItem("token");
     console.log("Token Home: ", token);
-    const [modalOpen, setModalOpen] = useState(false)
-    const [professorSelecionado, setProfessorSelecionado] = useState(null)
-    const [setar, setSetar] = useState(false)
+    const [modalOpen, setModalOpen] = useState(false);
+    const [professorSelecionado, setProfessorSelecionado] = useState(null);
+    const [setar, setSetar] = useState(false);
 
 
     useEffect(() => {

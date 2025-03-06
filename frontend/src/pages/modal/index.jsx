@@ -55,7 +55,7 @@ return(
     <main>
         <div className={estilos.container_modal}>
             <div className={estilos.body_modal}>
-                <button className={estilos.close_button}>X</button>
+                <button onClose={fecharModal} className={estilos.close_button}>X</button>
                 <h2>{professorSelecionado ? "Editar": "Cadastrar"}</h2>
                 <div className={estilos.form_modal}>
                     <div className={estilos.caixa}>
