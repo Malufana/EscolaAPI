@@ -3,6 +3,8 @@
     justify-content: center;
     align-items: center;
     /* background: rgba(0, 0, 0, 0.3); */
+    border-radius: 15px;
+    /* border: 1px solid blue; */
 }
 
 .body_modal{
@@ -13,12 +15,13 @@
     justify-items: center;
     align-items: center;
     width: 550px;
+    /* border: 1px solid red; */
 }
 
 .close_button{
-    position: relative;
-    /* right: 25%;
-    left: 1%; */
+    position: relative; 
+    right: 25%;
+    left: 1%;
     background: transparent;
     border: none;
     font-size: 18px;
@@ -37,14 +40,14 @@ input{
     margin: 1%;
 }
 
-button[type="submit"]{
-    width: 10%;
+button[type="button"]{
+    width: 13%;
     padding: 5px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
-button[type="submit"]:hover{
+button[type="button"]:hover{
     background: #45a049;
 }

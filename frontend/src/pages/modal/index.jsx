@@ -1,12 +1,15 @@
 import React, {useState, useEffect} from "react";
 import estilos from '../modal/style.module.css'
+import axios from "axios";
 
 const ModalProfessores = ({
     isOpen,
     onClose,
     professorSelecionado,
     criar,
-    atualizar
+    // atualizar
+    setar,
+    setSetar
 })=>{
 
 if (!isOpen) return null
@@ -19,6 +22,7 @@ const [nome, setNome] = useState(professorSelecionado?.nome || "")
 const [email, setEmail] = useState(professorSelecionado?.email || "")
 const [cel, setCel] = useState(professorSelecionado?.cel || "")
 const [ocup, setOcup] = useState(professorSelecionado?.ocup || "")
+const token = localStorage.getItem('token')
 
 useEffect(() =>{
     if(professorSelecionado){
@@ -37,17 +41,54 @@ useEffect(() =>{
         setCel('')
         setOcup('')
     }
-}, [])
+}, [professorSelecionado])
+
+
+console.log("Professor Selecionado: ", professorSelecionado);
+
 
 const handleSubmit = (e) =>{
     e.preventDefault()
 
     const novoProfessor = {ni, nome, email, cel, ocup}
+    console.log("Novo Professor1: ", novoProfessor);
 
     if(professorSelecionado){
         atualizar({...professorSelecionado})
     }else{
         criar(novoProfessor)
+        console.log("Dados enviados: ", novoProfessor);
+    }
+}
+
+const atualizar = async () =>{
+    if(!professorSelecionado) return;
+
+    console.log("Professor selecionado para atualizar: ", professorSelecionado);
+
+    try{
+        const response = await axios.put(`http://127.0.0.1:8000/api/professores/${professorSelecionado.id}/`,
+            {
+                ni: ni,
+                nome: nome,
+                email: email,
+                ocup: ocup,
+                cel: cel
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+
+        console.log("Professor atualizado com sucesso!", response.data);
+
+        setSetar(!setar);
+        setModalOpen(false);
+        
+    }catch(error){
+        console.error("Erro ao atualizar professor: ", error);
     }
 }
 
@@ -55,13 +96,15 @@ return(
     <main>
         <div className={estilos.container_modal}>
             <div className={estilos.body_modal}>
-                <button onClose={fecharModal} className={estilos.close_button}>X</button>
+                <button onClick={onClose} className={estilos.close_button}>X</button>
                 <h2>{professorSelecionado ? "Editar": "Cadastrar"}</h2>
                 <div className={estilos.form_modal}>
                     <div className={estilos.caixa}>
                         <form onSubmit={handleSubmit}>
                             <input 
                                 type="text" 
+                                name="ni"
+                                id="ni"
                                 className={estilos.niModal}
                                 placeholder="NI"
                                 value={ni}
@@ -70,6 +113,8 @@ return(
 
                             <input 
                                 type="text" 
+                                name="nome"
+                                id="nome"
                                 className={estilos.nomeModal}
                                 placeholder="NOME"
                                 value={nome}
@@ -78,6 +123,8 @@ return(
 
                             <input 
                                 type="email" 
+                                name="email"
+                                id="email"
                                 className={estilos.emailModal}
                                 placeholder="EMAIL"
                                 value={email}
@@ -86,6 +133,8 @@ return(
 
                             <input 
                                 type="text" 
+                                name="cel"
+                                id="cel"
                                 className={estilos.celModal}
                                 placeholder="CELULAR"
                                 value={cel}
@@ -94,13 +143,15 @@ return(
 
                             <input 
                                 type="text" 
+                                name="ocup"
+                                id="ocup"
                                 className={estilos.ocupModal}
                                 placeholder="OCUPAÇÃO"
                                 value={ocup}
                                 onChange={(e) =>setOcup(e.target.value)}
                             />
 
-                            <button type="submit">{professorSelecionado ? "Atualizar" : "Salvar"}</button>
+                            <button type="button" onClick={() => professorSelecionado ? atualizar() : criar()}>{professorSelecionado ? "Atualizar" : "Salvar"}</button>
                         </form>
                     </div>
                 </div>

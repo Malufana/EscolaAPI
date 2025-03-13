@@ -12,6 +12,7 @@ export default function Professores(){
     console.log("Token Home: ", token);
     const [modalOpen, setModalOpen] = useState(false);
     const [professorSelecionado, setProfessorSelecionado] = useState(null);
+
     const [setar, setSetar] = useState(false);
 
 
@@ -38,7 +39,7 @@ export default function Professores(){
             }
         }
         fetchData();
-    }, [token]);
+    }, [token, setar]);
 
     const editar = (professor) =>{
         console.log(professor)
@@ -49,16 +50,17 @@ export default function Professores(){
     const criar = async (novoProfessor) =>{
 
         try{
-            const response = await axios.post('http://127.0.0.1:8000/api/professores',
+            const response = await axios.post('http://127.0.0.1:8000/api/professores/',
                 {
                     ni: novoProfessor.ni,
                     nome: novoProfessor.nome,
                     email: novoProfessor.email,
-                    cel: novoProfessor.cel,
-                    ocup: novoProfessor.ocup
+                    ocup: novoProfessor.ocup,
+                    cel: novoProfessor.cel
                 },{
                     headers:{
-                        Authorization: `Bearer ${token}`
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json"
                     }
                 }
             )
@@ -67,13 +69,29 @@ export default function Professores(){
             setModalOpen(false)
             setSetar(!setar)
         }catch(error){
-
+            console.error("Erro ao criar professor:", error.response?.data || error);
         }
     }
 
-    const atualizar = () =>{
-        
+    const apagar = async (professor) => {
+        console.log("Professor: ", professor)
+        try {
+            await axios.delete(`http://127.0.0.1:8000/api/professores/${professor.id}/`,
+                {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+            )
+            console.log("Dados apagados com sucesso...", response.data)
+            setSetar(!setar)
+            onClose(false)
+        } catch (error) {
+            console.error("Erro ao apagar professor: ", error.response ? error.response.data : error.message);
+        }
     }
+
+    
 
     return(
         <main>
@@ -97,7 +115,7 @@ export default function Professores(){
                             <tbody>
                                 {dados.map((professor)=>(
                                     <tr>
-                                        <td className={estilos.td}><FaEdit className={estilos.edit} onClick={() => editar(professor)}/> <FaTrash className={estilos.delete}/></td>
+                                        <td className={estilos.td}><FaEdit className={estilos.edit} onClick={() => editar(professor)}/> <FaTrash onClick={() => apagar(professor)} className={estilos.delete}/></td>
                                         <td className={estilos.td}><span>{professor.id}</span></td>
                                         <td className={estilos.td}><span>{professor.ni}</span></td>
                                         <td className={estilos.td}><span>{professor.nome}</span></td>
@@ -132,11 +150,13 @@ export default function Professores(){
                 </div>
                 <ModalProfessores
                     isOpen={modalOpen}
-                    onClose={() => modalOpen(false)}
+                    onClose={() => setModalOpen(false)}
                     professorSelecionado={professorSelecionado}
                     setProfessorSelecionado={setProfessorSelecionado}
                     criar={criar}
-                    atualizar={atualizar}
+                    // atualizar={atualizar}
+                    setar = {setar}
+                    setSetar = {setSetar}
                 />
                 <Footer/>
             </div>
