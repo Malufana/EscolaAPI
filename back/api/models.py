@@ -7,3 +7,7 @@ class Professor(models.Model):
     ocup = models.CharField(max_length=255)
     cel = models.CharField(max_length=255)
 
+class Disciplinas(models.Model):
+    codigo = models.CharField(max_length=10, unique=True)
+    nome = models.CharField(max_length=255)
+    qtdAula = models.IntegerField(null=False)

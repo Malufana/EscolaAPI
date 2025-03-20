@@ -9,7 +9,7 @@ import ModalProfessores from "../modal";
 export default function Professores(){
     const [dados, setDados] = useState([]);
     const token = localStorage.getItem("token");
-    console.log("Token Home: ", token);
+    console.log("Token Professor: ", token);
     const [modalOpen, setModalOpen] = useState(false);
     const [professorSelecionado, setProfessorSelecionado] = useState(null);
 
@@ -83,9 +83,8 @@ export default function Professores(){
                 }
             }
             )
-            console.log("Dados apagados com sucesso...", response.data)
+            console.log("Dados apagados com sucesso...")
             setSetar(!setar)
-            onClose(false)
         } catch (error) {
             console.error("Erro ao apagar professor: ", error.response ? error.response.data : error.message);
         }
@@ -154,9 +153,9 @@ export default function Professores(){
                     professorSelecionado={professorSelecionado}
                     setProfessorSelecionado={setProfessorSelecionado}
                     criar={criar}
-                    // atualizar={atualizar}
                     setar = {setar}
                     setSetar = {setSetar}
+                    setModalOpen={setModalOpen}
                 />
                 <Footer/>
             </div>
