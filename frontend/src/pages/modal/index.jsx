@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import estilos from '../modal/style.module.css'
 import axios from "axios";
 
@@ -9,7 +9,7 @@ const ModalProfessores = ({
     criar,
     // atualizar
     setar,
-    setSetar
+    setSetar,
 })=>{
 
     if (!isOpen) return null
@@ -22,6 +22,10 @@ const ModalProfessores = ({
     const [email, setEmail] = useState(professorSelecionado?.email || "")
     const [cel, setCel] = useState(professorSelecionado?.cel || "")
     const [ocup, setOcup] = useState(professorSelecionado?.ocup || "")
+    const [foto, setFoto] = useState(professorSelecionado?.foto || "")
+    const [preview, setPreview] = useState(null)
+    const fotoRef = useRef(null)
+    const [mensagem, setMensagem] = useState('')
     const token = localStorage.getItem('token')
 
     useEffect(() =>{
@@ -32,6 +36,8 @@ const ModalProfessores = ({
             setEmail(professorSelecionado.email || "")
             setCel(professorSelecionado.cel || "")
             setOcup(professorSelecionado.ocup || "")
+            setFoto(professorSelecionado.foto || "")
+            //capturar foto
         }
         else{
             setId('')
@@ -40,6 +46,7 @@ const ModalProfessores = ({
             setEmail('')
             setCel('')
             setOcup('')
+            setFoto('')
         }
     }, [professorSelecionado])
 
@@ -47,21 +54,84 @@ const ModalProfessores = ({
     console.log("Professor Selecionado: ", professorSelecionado);
 
 
-    const handleSubmit = (e) =>{
+    const handleSubmit = async (e) =>{
         e.preventDefault()
 
-        const novoProfessor = {ni, nome, email, cel, ocup}
-        console.log("Novo Professor1: ", novoProfessor);
+        if(!ni || !nome || !email || !cel || !ocup || !(fotoRef.current instanceof File)){
+            setMensagem("Preencha todos os campos!")
+            return
+        }
 
-        if(professorSelecionado){
-            atualizar()
-        }else{
-            criar(novoProfessor)
-            console.log("Dados enviados: ", novoProfessor);
+        const fileExtension = fotoRef.current.name.split(".").pop()
+        const newNameFile = `${ni}_${nome.split(" ")[0]}.${fileExtension}`
+        const nameFile = new File([fotoRef.current], newNameFile, {type: fotoRef.current.type})
+
+        const formData = new formData()
+        formData.append("ni", ni)
+        formData.append("nome", nome)
+        formData.append("email", email)
+        formData.append("cel", cel)
+        formData.append("ocup", ocup)
+        formData.append("foto", nameFile)
+
+        try{
+            await axios.post('http://127.0.0.1:8000/api/professores',
+                formData, 
+                {
+                    headers:{
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data"
+                    }
+                }
+            )
+
+            setMensagem("Dados enviados com sucesso!")
+            console.log("Dados enviados com sucesso!")
+            setPreview(null)
+            onClose(true)
+
+        }catch(error){
+            console.error("Erro ao enviar dados: ", error)
+        }
+
+    }
+
+    const deleteFile = async (fileName) =>{
+        if(fotoRef){
+            const response = await axios.delete(`http://127.0.0.1:8000/api/deleteFile/${fileName}`,
+                {
+                    headers:{
+                        Authorization: `Berear ${token}`
+                    }
+                }
+            )
+            console.log("Deletou")
         }
     }
 
-    const atualizar = async () =>{
+    const handleFileChange = (e) =>{
+        if(professorSelecionado){
+            const fileName = professorSelecionado.foto.split("/").pop()
+            deleteFile(fileName)
+        }
+        const file = e.target.file[0]
+
+        if(!file) return
+
+        fotoRef.current = file
+
+        const reader = new FileReader()
+        reader.onloadend = () =>{
+            setPreview("Preview: ", file)
+        } 
+
+        reader.readAsDataURL(file)
+        console.log("Preview XXX: ", file)
+
+
+    }
+
+    const atualizar = async (id) =>{
         if(!professorSelecionado) return;
 
         console.log("Professor selecionado para atualizar: ", professorSelecionado);
@@ -73,7 +143,8 @@ const ModalProfessores = ({
                     nome: nome,
                     email: email,
                     ocup: ocup,
-                    cel: cel
+                    cel: cel,
+                    foto: foto 
                 },
                 {
                     headers: {
@@ -100,59 +171,80 @@ const ModalProfessores = ({
                     <h2>{professorSelecionado ? "Editar": "Cadastrar"}</h2>
                     <div className={estilos.form_modal}>
                         <div className={estilos.caixa}>
-                            <form onSubmit={handleSubmit}>
-                                <input 
-                                    type="text" 
-                                    name="ni"
-                                    id="ni"
-                                    className={estilos.niModal}
-                                    placeholder="NI"
-                                    value={ni}
-                                    onChange={(e) =>setNi(e.target.value)}
-                                />
+                            
+                            <input 
+                                type="text" 
+                                name="ni"
+                                id="ni"
+                                className={estilos.niModal}
+                                placeholder="NI"
+                                value={ni}
+                                onChange={(e) =>setNi(e.target.value)}
+                            />
 
-                                <input 
-                                    type="text" 
-                                    name="nome"
-                                    id="nome"
-                                    className={estilos.nomeModal}
-                                    placeholder="NOME"
-                                    value={nome}
-                                    onChange={(e) =>setNome(e.target.value)}
-                                />
+                            <input 
+                                type="text" 
+                                name="nome"
+                                id="nome"
+                                className={estilos.nomeModal}
+                                placeholder="NOME"
+                                value={nome}
+                                onChange={(e) =>setNome(e.target.value)}
+                            />
 
-                                <input 
-                                    type="email" 
-                                    name="email"
-                                    id="email"
-                                    className={estilos.emailModal}
-                                    placeholder="EMAIL"
-                                    value={email}
-                                    onChange={(e) =>setEmail(e.target.value)}
-                                />
+                            <input 
+                                type="email" 
+                                name="email"
+                                id="email"
+                                className={estilos.emailModal}
+                                placeholder="EMAIL"
+                                value={email}
+                                onChange={(e) =>setEmail(e.target.value)}
+                            />
 
-                                <input 
-                                    type="text" 
-                                    name="cel"
-                                    id="cel"
-                                    className={estilos.celModal}
-                                    placeholder="CELULAR"
-                                    value={cel}
-                                    onChange={(e) =>setCel(e.target.value)}
-                                />
+                            <input 
+                                type="text" 
+                                name="cel"
+                                id="cel"
+                                className={estilos.celModal}
+                                placeholder="CELULAR"
+                                value={cel}
+                                onChange={(e) =>setCel(e.target.value)}
+                            />
 
-                                <input 
-                                    type="text" 
-                                    name="ocup"
-                                    id="ocup"
-                                    className={estilos.ocupModal}
-                                    placeholder="OCUPAÇÃO"
-                                    value={ocup}
-                                    onChange={(e) =>setOcup(e.target.value)}
-                                />
+                            <input 
+                                type="text" 
+                                name="ocup"
+                                id="ocup"
+                                className={estilos.ocupModal}
+                                placeholder="OCUPAÇÃO"
+                                value={ocup}
+                                onChange={(e) =>setOcup(e.target.value)}
+                            />
 
-                                <button type="submit">{professorSelecionado ? "Atualizar" : "Salvar"}</button>
-                            </form>
+                            <div className={estilos.image1}>
+                                <img 
+                                    src={`http://127.0.0.1:8000/api/fotos/${ni}_${nome.split(" ")[0]}.png`} 
+                                    
+                                />
+                            </div>
+
+                            <div className={estilos.image2}>
+                                <form onSubmit={handleSubmit}>
+                                    {preview && <img src={preview} className={estilos.preview}/>}
+
+                                    <input type="file" accept="image/*" onChange={handleFileChange} className={estilos.fileInput}/>
+
+                                    <button 
+                                        type="submit"
+                                        onClick={}
+                                    >
+                                        {professorSelecionado ? "Atualizar" : "Salvar"}</button>
+                                </form>
+                            </div>
+
+                            <button type="submit">{professorSelecionado ? "Atualizar" : "Salvar"}</button>
+                            
                         </div>
                     </div>
                 </div>

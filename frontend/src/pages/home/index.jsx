@@ -11,23 +11,21 @@ export default function Home(){
 
 
     return(
-        <main>
-            <div className={stylo.container}>
-                <Header/>
-                <div className={stylo.princ}>
-                    <a href="/professores" className={stylo.card}>
-                        <FaUserTie className={stylo.icon}/>
-                        <span>Professores</span>
-                    </a>
+        <div className={stylo.container}>
+            <Header/>
+            <div className={stylo.princ}>
+                <a href="/professores" className={stylo.card}>
+                    <FaUserTie className={stylo.icon}/>
+                    <span>Professores</span>
+                </a>
 
-                    <a href="/disciplinas" className={stylo.card}>
-                        <FaBook className={stylo.icon}/>
-                        <span>Disciplinas</span>
-                    </a>
+                <a href="/disciplinas" className={stylo.card}>
+                    <FaBook className={stylo.icon}/>
+                    <span>Disciplinas</span>
+                </a>
 
-                </div>
-                <Footer/>
             </div>
-        </main>
+            <Footer/>
+        </div>
     )
 }

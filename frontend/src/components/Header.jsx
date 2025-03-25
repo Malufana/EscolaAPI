@@ -4,7 +4,7 @@ export function Header(){
     return(
         <header className={estilos.header}>
             <div className={estilos.logo}>
-                <h1>PROFESSORES</h1>
+                <a href="/home">PROFESSORES</a>
             </div>
 
             <button className={estilos.button}>

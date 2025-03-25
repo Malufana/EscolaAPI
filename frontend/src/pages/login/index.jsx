@@ -23,7 +23,7 @@ export default function Login(){
             console.log("TOKEN LOGIN", response.data.access);
             localStorage.setItem('token', response.data.access);
             
-            navigate('/disciplinas');
+            navigate('/home');
 
         } catch(error){
             console.error(error)
