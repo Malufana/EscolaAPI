@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import estilos from '../modal/style.module.css'
 import axios from "axios";
+import useWindowSize from "../../functions/useWindowSize";
 
 const ModalProfessores = ({
     isOpen,
@@ -23,10 +24,13 @@ const ModalProfessores = ({
     const [cel, setCel] = useState(professorSelecionado?.cel || "")
     const [ocup, setOcup] = useState(professorSelecionado?.ocup || "")
     const [foto, setFoto] = useState(professorSelecionado?.foto || "")
+
     const [preview, setPreview] = useState(null)
     const fotoRef = useRef(null)
     const [mensagem, setMensagem] = useState('')
     const token = localStorage.getItem('token')
+
+    const {width, height} = useWindowSize();
 
     useEffect(() =>{
         if(professorSelecionado){
@@ -164,11 +168,13 @@ const ModalProfessores = ({
     }
 
     return(
-        <main>
+        <main className={estilos.overlay}>
             <div className={estilos.container_modal}>
                 <div className={estilos.body_modal}>
                     <button onClick={onClose} className={estilos.close_button}>X</button>
+
                     <h2>{professorSelecionado ? "Editar": "Cadastrar"}</h2>
+
                     <div className={estilos.form_modal}>
                         <div className={estilos.caixa}>
                             
@@ -176,7 +182,7 @@ const ModalProfessores = ({
                                 type="text" 
                                 name="ni"
                                 id="ni"
-                                className={estilos.niModal}
+                                className={estilos.input}
                                 placeholder="NI"
                                 value={ni}
                                 onChange={(e) =>setNi(e.target.value)}
@@ -186,7 +192,7 @@ const ModalProfessores = ({
                                 type="text" 
                                 name="nome"
                                 id="nome"
-                                className={estilos.nomeModal}
+                                className={estilos.input}
                                 placeholder="NOME"
                                 value={nome}
                                 onChange={(e) =>setNome(e.target.value)}
@@ -196,7 +202,7 @@ const ModalProfessores = ({
                                 type="email" 
                                 name="email"
                                 id="email"
-                                className={estilos.emailModal}
+                                className={estilos.input}
                                 placeholder="EMAIL"
                                 value={email}
                                 onChange={(e) =>setEmail(e.target.value)}
@@ -206,7 +212,7 @@ const ModalProfessores = ({
                                 type="text" 
                                 name="cel"
                                 id="cel"
-                                className={estilos.celModal}
+                                className={estilos.input}
                                 placeholder="CELULAR"
                                 value={cel}
                                 onChange={(e) =>setCel(e.target.value)}
@@ -216,35 +222,39 @@ const ModalProfessores = ({
                                 type="text" 
                                 name="ocup"
                                 id="ocup"
-                                className={estilos.ocupModal}
+                                className={estilos.input}
                                 placeholder="OCUPAÇÃO"
                                 value={ocup}
                                 onChange={(e) =>setOcup(e.target.value)}
                             />
 
-                            <div className={estilos.image1}>
-                                <img 
-                                    src={`http://127.0.0.1:8000/api/fotos/${ni}_${nome.split(" ")[0]}.png`} 
-                                    
-                                />
+                            <div className={estilos.blocoImg}>
+                                <div className={estilos.imageContainer}>
+                                    <img 
+                                        src={`http://127.0.0.1:8000/api/fotos/${ni}_${nome.split(" ")[0]}.png`} 
+                                        className={estilos.imagem}
+                                    />
+                                </div>
+
+                                <div className={estilos.imageForm}>
+                                    <form onSubmit={handleSubmit} className={estilos.form}>
+                                        {preview && <img src={preview} className={estilos.preview}/>}
+
+                                        <input type="file" accept="image/*" onChange={handleFileChange} className={estilos.customFileInput}/>
+
+                                        <button 
+                                            className={estilos.btn}
+                                            type="submit"
+                                            onClick={(e) => {
+                                                e.preventDefault()
+                                                professorSelecionado ? atualizar(professorSelecionado.id) : handleSubmit(e)
+                                            }}
+                                        >
+                                            {professorSelecionado ? "Atualizar" : "Salvar"}
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
-
-                            <div className={estilos.image2}>
-                                <form onSubmit={handleSubmit}>
-                                    {preview && <img src={preview} className={estilos.preview}/>}
-
-                                    <input type="file" accept="image/*" onChange={handleFileChange} className={estilos.fileInput}/>
-
-                                    <button 
-                                        type="submit"
-                                        onClick={}
-                                    >
-                                        {professorSelecionado ? "Atualizar" : "Salvar"}</button>
-                                </form>
-                            </div>
-
-                            <button type="submit">{professorSelecionado ? "Atualizar" : "Salvar"}</button>
-                            
                         </div>
                     </div>
                 </div>
